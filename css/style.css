@@ -1,0 +1,25 @@
+
+body {
+  overflow-x: auto;
+}
+
+
+img {
+  width: 500px; 
+  vertical-align: middle;
+}
+
+#photo-template img{
+  padding: 0px;
+}
+
+main > div {
+  height: 750px;
+  width : 500px;
+  float: left;
+}
+
+/* main > div > h2 {
+  position: absolute;
+  top: 0px; left : 0px;
+} */

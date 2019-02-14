@@ -62,7 +62,7 @@ Given that a user opens the application in the browser
 When the user naviates to the home page  
 Then the photo gallery should display all of the images in the gallery  
 
-#### How are we implementing it?
+#### Howffo are we implementing it?
 
 - Use AJAX, specifically `$.get()`, to read the provided JSON file.
 - Each object should become a new instance of a constructor function. Refer to the data to determine the necessary properties.
