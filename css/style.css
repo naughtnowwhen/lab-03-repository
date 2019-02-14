@@ -14,9 +14,35 @@ img {
 }
 
 main > div {
-  height: 750px;
+  height: 800px;
   width : 500px;
   float: left;
+  padding-bottom: 100px;
+}
+
+main > div > div {
+  height: 700px;
+}
+
+span {
+  height: 700px;
+  line-height: 700px;
+  white-space: nowrap
+}
+
+#photo-template span {
+  height: 0px;
+  line-height: 0px;
+}
+
+h2 {
+  font-family: 'Oxygen', sans-serif;
+  text-align: center;
+  font-size: 3em;
+}
+
+p {
+  font-size: 1.3em;
 }
 
 /* main > div > h2 {
