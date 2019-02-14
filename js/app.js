@@ -1,6 +1,7 @@
 'use strict';
 
 let ourFriendlyBeasts = [];
+let keywords = [];
 
 function HornMaker(beast) {
   this.image_url = beast.image_url;
@@ -18,7 +19,7 @@ const readJson = () => {
       animals.forEach((animal) => {
         new HornMaker(animal);
       })
-    }).then(renderAllBeasts)
+    }).then(renderAllBeasts).then(getKeywords).then(hideEverything);
 }
 
 const renderAllBeasts = () => {
@@ -26,7 +27,23 @@ const renderAllBeasts = () => {
     console.log('am i getting to');
     beast.renderBeast();
   })
-};
+}
+
+const getKeywords = function() {
+  for(let i = 0; i< ourFriendlyBeasts.length; i++) {
+    if (keywords.indexOf(ourFriendlyBeasts[i].keyword) === -1){
+      keywords.push(ourFriendlyBeasts[i].keyword);
+    }
+  }
+  renderKeywords();
+}
+
+const renderKeywords = function() {
+  keywords.forEach((word) => {
+    $('#sort').append(`<option value="${word}">${word}</option>`)
+  })
+  $('#sort').append(`<option value="all">Show all</option>`)
+}
 
 HornMaker.prototype.renderBeast = function () {
   $('main').append('<div class="new-beast"></div>');
@@ -41,5 +58,19 @@ HornMaker.prototype.renderBeast = function () {
   newBeast.addClass(this.keyword);
 }
 
+const hideEverything = () => {
+  $('main > div').hide();
+}
+
+$('#sort').on('change', function()  {
+  hideEverything();
+  console.log($(this));
+  let $selection = $('#sort').val();
+  if($selection === 'all') {
+    $('main > div').fadeIn(350);
+    return;
+  }
+  $(`.${$selection}`).fadeIn(350);
+})
 
 $(() => readJson());
