@@ -1,15 +1,23 @@
 'use strict';
 
-let ourFriendlyBeasts = [];
-let keywords = [];
+let ourFriendlyBeastsA = [];
+let ourFriendlyBeastsB = [];
+let keywordsA = [];
+let keywordsB = [];
 
-function HornMaker(beast) {
+function HornMaker(beast, whichDataSet) {
   this.image_url = beast.image_url;
   this.title = beast.title;
   this.description = beast.description;
   this.keyword = beast.keyword;
   this.horns = beast.horns;
-  ourFriendlyBeasts.push(this);
+  this.whichDataSet = whichDataSet;
+  if (whichDataSet === 'set-a') {
+    ourFriendlyBeastsA.push(this);
+  }
+  if (whichDataSet === 'set-b') {
+    ourFriendlyBeastsB.push(this);
+  }
 }
 
 
@@ -17,33 +25,62 @@ const readJson = () => {
   $.get('data/page-1.json', 'json')
     .then((animals) => {
       animals.forEach((animal) => {
-        new HornMaker(animal);
+        new HornMaker(animal, 'set-a');
       })
     }).then(renderAllBeasts).then(getKeywords).then(hideEverything);
+  $.get('data/page-2.json', 'json')
+    .then((animals) => {
+      animals.forEach((animal) => {
+        new HornMaker(animal, 'set-b');
+      })
+      //TODO: write these functions;
+    }).then(renderAllBeastsSetB).then(getKeywordsSetB).then(hideEverything);
 }
 
 const renderAllBeasts = () => {
-  ourFriendlyBeasts.forEach((beast) => {
-    console.log('am i getting to');
+  ourFriendlyBeastsA.forEach((beast) => {
     beast.renderBeast();
   })
 }
 
-const getKeywords = function() {
-  for(let i = 0; i< ourFriendlyBeasts.length; i++) {
-    if (keywords.indexOf(ourFriendlyBeasts[i].keyword) === -1){
-      keywords.push(ourFriendlyBeasts[i].keyword);
+const renderAllBeastsSetB = () => {
+  ourFriendlyBeastsB.forEach((beast) => {
+    beast.renderBeast();
+  })
+}
+
+const getKeywords = function () {
+  for (let i = 0; i < ourFriendlyBeastsA.length; i++) {
+    if (keywordsA.indexOf(ourFriendlyBeastsA[i].keyword) === -1) {
+      keywordsA.push(ourFriendlyBeastsA[i].keyword);
     }
   }
   renderKeywords();
 }
 
-const renderKeywords = function() {
-  keywords.forEach((word) => {
-    $('#sort').append(`<option value="${word}">${word}</option>`)
-  })
-  $('#sort').append(`<option value="all">Show all</option>`)
+const getKeywordsSetB = function () {
+  for (let i = 0; i < ourFriendlyBeastsB.length; i++) {
+    if (keywordsB.indexOf(ourFriendlyBeastsB[i].keyword) === -1) {
+      keywordsB.push(ourFriendlyBeastsB[i].keyword);
+    }
+  }
+  renderKeywordsSetB();
 }
+
+const renderKeywords = function () {
+  keywordsA.forEach((word) => {
+    $('select.set-a').append(`<option value="${word}">${word}</option>`)
+  })
+  $('select.set-a').append(`<option value="all">Show all</option>`)
+}
+
+const renderKeywordsSetB = function () {
+  keywordsB.forEach((word) => {
+    $('select.set-b').append(`<option value="${word}">${word}</option>`)
+  })
+  $('select.set-b').append(`<option value="all">Show all</option>`)
+}
+
 
 HornMaker.prototype.renderBeast = function () {
   $('main').append('<div class="new-beast"></div>');
@@ -55,22 +92,44 @@ HornMaker.prototype.renderBeast = function () {
   newBeast.find('p').text(this.description);
   newBeast.removeClass('new-beast');
 
-  newBeast.addClass(this.keyword);
+  newBeast.addClass(this.keyword).addClass(this.whichDataSet);
 }
 
 const hideEverything = () => {
   $('main > div').hide();
-}
+  $('select').hide();
+};
 
-$('#sort').on('change', function()  {
+
+$('select.set-a').on('change', function () {
   hideEverything();
   console.log($(this));
-  let $selection = $('#sort').val();
-  if($selection === 'all') {
-    $('main > div').fadeIn(350);
+  let $selection = $('select.set-a').val();
+  if ($selection === 'all') {
+    $('main > div.set-a').fadeIn(350);
     return;
   }
   $(`.${$selection}`).fadeIn(350);
 })
 
-$(() => readJson());
+
+$('select.set-b').on('change', function () {
+  hideEverything();
+  console.log($(this));
+  let $selection = $('select.set-b').val();
+  if ($selection === 'all') {
+    $('main > div.set-b').fadeIn(350);
+    return;
+  }
+  $(`.${$selection}`).fadeIn(350);
+})
+
+
+$(() => readJson(),
+  $('nav').on('click', 'li', function () {
+    hideEverything();
+    // console.log();
+    //great! Dana worked some magic
+    $(`select.${$(this).attr('class')}`).fadeIn(300);
+  })
+);
