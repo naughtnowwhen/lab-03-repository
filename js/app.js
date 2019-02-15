@@ -5,13 +5,18 @@ let ourFriendlyBeastsB = [];
 let keywordsA = [];
 let keywordsB = [];
 
-function HornMaker(beast, whichDataSet) {
-  this.image_url = beast.image_url;
-  this.title = beast.title;
-  this.description = beast.description;
-  this.keyword = beast.keyword;
-  this.horns = beast.horns;
+function HornMaker(rawData, whichDataSet) {
+  // this.image_url = beast.image_url;
+  // this.title = beast.title;
+  // this.description = beast.description;
+  // this.keyword = beast.keyword;
+  // this.horns = beast.horns;
+  // this.whichDataSet = whichDataSet;
+  for(let key in rawData) {
+    this[key] = rawData[key];
+  }
   this.whichDataSet = whichDataSet;
+
   if (whichDataSet === 'set-a') {
     ourFriendlyBeastsA.push(this);
   }
@@ -83,17 +88,27 @@ const renderKeywordsSetB = function () {
 
 
 HornMaker.prototype.renderBeast = function () {
-  $('main').append('<div class="new-beast"></div>');
-  let newBeast = $('.new-beast');
-  newBeast.html($('#photo-template').html());
+  // $('main').append('<div class="new-beast"></div>');
+  // let newBeast = $('.new-beast');
+  // newBeast.html($('#photo-template').html());
 
-  newBeast.find('h2').text(this.title);
-  newBeast.find('img').attr('src', this.image_url).attr('alt', ` picture of ${this.title}`);
-  newBeast.find('p').text(this.description);
-  newBeast.removeClass('new-beast');
+  // newBeast.find('h2').text(this.title);
+  // newBeast.find('img').attr('src', this.image_url).attr('alt', ` picture of ${this.title}`);
+  // newBeast.find('p').text(this.description);
+  // newBeast.removeClass('new-beast');
 
-  newBeast.addClass(this.keyword).addClass(this.whichDataSet);
+  // newBeast.addClass(this.keyword).addClass(this.whichDataSet);
+
+  $('main').append(this.buildTemplate());
 }
+
+HornMaker.prototype.buildTemplate = function() {
+  const template = $('#beast-template').html();
+  const compiled = Handlebars.compile(template);
+  return compiled(this);
+}
+
+// const beastTemplate = buildTemplate();
 
 const hideEverything = () => {
   $('main > div').hide();
