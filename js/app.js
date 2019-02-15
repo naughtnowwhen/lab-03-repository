@@ -12,7 +12,7 @@ function HornMaker(rawData, whichDataSet) {
   // this.keyword = beast.keyword;
   // this.horns = beast.horns;
   // this.whichDataSet = whichDataSet;
-  for(let key in rawData) {
+  for (let key in rawData) {
     this[key] = rawData[key];
   }
   this.whichDataSet = whichDataSet;
@@ -38,7 +38,6 @@ const readJson = () => {
       animals.forEach((animal) => {
         new HornMaker(animal, 'set-b');
       })
-      //TODO: write these functions;
     }).then(renderAllBeastsSetB).then(getKeywordsSetB).then(hideEverything);
 }
 
@@ -102,7 +101,7 @@ HornMaker.prototype.renderBeast = function () {
   $('main').append(this.buildTemplate());
 }
 
-HornMaker.prototype.buildTemplate = function() {
+HornMaker.prototype.buildTemplate = function () {
   const template = $('#beast-template').html();
   const compiled = Handlebars.compile(template);
   return compiled(this);
@@ -111,8 +110,7 @@ HornMaker.prototype.buildTemplate = function() {
 // const beastTemplate = buildTemplate();
 
 const hideEverything = () => {
-  $('main > div').hide();
-  $('select').hide();
+  $('main > section').hide();
 };
 
 
@@ -140,11 +138,20 @@ $('select.set-b').on('change', function () {
 })
 
 
-$(() => readJson(),
+$(() => {
+  readJson();
   $('nav').on('click', 'li', function () {
     hideEverything();
     // console.log();
     //great! Dana worked some magic
+    $('select').hide();
     $(`select.${$(this).attr('class')}`).fadeIn(300);
-  })
-);
+  });
+  $('select').hide();
+  $('main').on('click', 'section', fullScreen)
+});
+
+const fullScreen = function() {
+
+    $(this).toggleClass('full-screen');
+  }
