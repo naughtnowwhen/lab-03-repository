@@ -9,16 +9,38 @@
   <link rel="stylesheet" type="text/css" href="css/reset.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+
+  <script id="beast-template" type="text/x-handlebars-templat">
+    <section class="{{keyword}} {{whichDataSet}}">
+      <h2>{{title}}</h2>
+      <div>
+        <span></span>
+        <img src="{{image_url}}" alt="picure of {{title}}">
+      </div>
+      <p>{{description}}</p>
+    </section>
+  </script>
 </head>
 
 <body>
   <header>
+    <nav>
+      <ul>
+        <li class='set-a'>show set-a</li>
+        <li class='set-b'>show set-b</li>
+      </ul>
+    </nav>
     <h1>The Gallery of Horns</h1>
-    <select id="sort">
+    <select class="sort set-a">
       <option value="default">Filter by Keyword</option>
     </select>
+    <select class="sort set-b">
+        <option value="default">Filter by Keyword</option>
+      </select>
+
   </header>
   <main>
+
     <section id="photo-template">
       <h2></h2>
       <div>
@@ -33,6 +55,7 @@
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
   <script src='js/app.js'></script>
 </body>
 
