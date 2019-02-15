@@ -119,10 +119,10 @@ $('select.set-a').on('change', function () {
   console.log($(this));
   let $selection = $('select.set-a').val();
   if ($selection === 'all') {
-    $('main > div.set-a').fadeIn(350);
+    $('main > .set-a').fadeIn(350);
     return;
   }
-  $(`.${$selection}`).fadeIn(350);
+  $(`.${$selection}.set-a`).fadeIn(350);
 })
 
 
@@ -131,10 +131,10 @@ $('select.set-b').on('change', function () {
   console.log($(this));
   let $selection = $('select.set-b').val();
   if ($selection === 'all') {
-    $('main > div.set-b').fadeIn(350);
+    $('main .set-b').fadeIn(350);
     return;
   }
-  $(`.${$selection}`).fadeIn(350);
+  $(`.${$selection}.set-b`).fadeIn(350);
 })
 
 
