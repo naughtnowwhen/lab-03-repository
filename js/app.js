@@ -147,6 +147,7 @@ $(() => {
     //great! Dana worked some magic
     $('select').hide();
     $(`select.${$(this).attr('class')}`).fadeIn(300);
+    $(`main > .${$(this).attr('class')}`).fadeIn(300);
   });
   $('select.set-b').hide();
   $('main').on('click', 'section', fullScreen)
