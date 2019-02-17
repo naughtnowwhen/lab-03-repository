@@ -1,9 +1,5 @@
 'use strict';
 
-let ourFriendlyBeastsA = [];
-let ourFriendlyBeastsB = [];
-let keywordsA = [];
-let keywordsB = [];
 
 function HornMaker(rawData, whichDataSet) {
   // this.image_url = beast.image_url;
@@ -18,13 +14,18 @@ function HornMaker(rawData, whichDataSet) {
   this.whichDataSet = whichDataSet;
 
   if (whichDataSet === 'set-a') {
-    ourFriendlyBeastsA.push(this);
+    HornMaker.ourFriendlyBeastsA.push(this);
   }
   if (whichDataSet === 'set-b') {
-    ourFriendlyBeastsB.push(this);
+    HornMaker.ourFriendlyBeastsB.push(this);
   }
 }
 
+HornMaker.ourFriendlyBeastsA = [];
+HornMaker.ourFriendlyBeastsB = [];
+
+HornMaker.keywordsA = [];
+HornMaker.keywordsB = [];
 
 const readJson = () => {
   $.get('data/page-1.json', 'json')
@@ -42,44 +43,44 @@ const readJson = () => {
 }
 
 const renderAllBeasts = () => {
-  ourFriendlyBeastsA.forEach((beast) => {
+  HornMaker.ourFriendlyBeastsA.forEach((beast) => {
     beast.renderBeast();
   })
 }
 
 const renderAllBeastsSetB = () => {
-  ourFriendlyBeastsB.forEach((beast) => {
+  HornMaker.ourFriendlyBeastsB.forEach((beast) => {
     beast.renderBeast();
   })
 }
 
 const getKeywords = function () {
-  for (let i = 0; i < ourFriendlyBeastsA.length; i++) {
-    if (keywordsA.indexOf(ourFriendlyBeastsA[i].keyword) === -1) {
-      keywordsA.push(ourFriendlyBeastsA[i].keyword);
+  for (let i = 0; i < HornMaker.ourFriendlyBeastsA.length; i++) {
+    if (HornMaker.keywordsA.indexOf(HornMaker.ourFriendlyBeastsA[i].keyword) === -1) {
+      HornMaker.keywordsA.push(HornMaker.ourFriendlyBeastsA[i].keyword);
     }
   }
   renderKeywords();
 }
 
 const getKeywordsSetB = function () {
-  for (let i = 0; i < ourFriendlyBeastsB.length; i++) {
-    if (keywordsB.indexOf(ourFriendlyBeastsB[i].keyword) === -1) {
-      keywordsB.push(ourFriendlyBeastsB[i].keyword);
+  for (let i = 0; i < HornMaker.ourFriendlyBeastsB.length; i++) {
+    if (HornMaker.keywordsB.indexOf(HornMaker.ourFriendlyBeastsB[i].keyword) === -1) {
+      HornMaker.keywordsB.push(HornMaker.ourFriendlyBeastsB[i].keyword);
     }
   }
   renderKeywordsSetB();
 }
 
 const renderKeywords = function () {
-  keywordsA.forEach((word) => {
+  HornMaker.keywordsA.forEach((word) => {
     $('select.set-a').append(`<option value="${word}">${word}</option>`)
   })
   $('select.set-a').append(`<option value="all">Show all</option>`)
 }
 
 const renderKeywordsSetB = function () {
-  keywordsB.forEach((word) => {
+  HornMaker.keywordsB.forEach((word) => {
     $('select.set-b').append(`<option value="${word}">${word}</option>`)
   })
   $('select.set-b').append(`<option value="all">Show all</option>`)
