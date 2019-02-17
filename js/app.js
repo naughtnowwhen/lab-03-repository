@@ -32,13 +32,13 @@ const readJson = () => {
       animals.forEach((animal) => {
         new HornMaker(animal, 'set-a');
       })
-    }).then(renderAllBeasts).then(getKeywords).then(hideEverything);
+    }).then(renderAllBeasts).then(getKeywords);
   $.get('data/page-2.json', 'json')
     .then((animals) => {
       animals.forEach((animal) => {
         new HornMaker(animal, 'set-b');
       })
-    }).then(renderAllBeastsSetB).then(getKeywordsSetB).then(hideEverything);
+    }).then(renderAllBeastsSetB).then(getKeywordsSetB).then($('main .set-b').hide());
 }
 
 const renderAllBeasts = () => {
@@ -147,11 +147,11 @@ $(() => {
     $('select').hide();
     $(`select.${$(this).attr('class')}`).fadeIn(300);
   });
-  $('select').hide();
+  $('select.set-b').hide();
   $('main').on('click', 'section', fullScreen)
 });
 
-const fullScreen = function() {
+const fullScreen = function () {
 
-    $(this).toggleClass('full-screen');
-  }
+  $(this).toggleClass('full-screen');
+}
