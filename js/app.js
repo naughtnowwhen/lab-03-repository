@@ -2,12 +2,6 @@
 
 
 function HornMaker(rawData, whichDataSet) {
-  // this.image_url = beast.image_url;
-  // this.title = beast.title;
-  // this.description = beast.description;
-  // this.keyword = beast.keyword;
-  // this.horns = beast.horns;
-  // this.whichDataSet = whichDataSet;
   for (let key in rawData) {
     this[key] = rawData[key];
   }
@@ -88,17 +82,6 @@ const renderKeywordsSetB = function () {
 
 
 HornMaker.prototype.renderBeast = function () {
-  // $('main').append('<div class="new-beast"></div>');
-  // let newBeast = $('.new-beast');
-  // newBeast.html($('#photo-template').html());
-
-  // newBeast.find('h2').text(this.title);
-  // newBeast.find('img').attr('src', this.image_url).attr('alt', ` picture of ${this.title}`);
-  // newBeast.find('p').text(this.description);
-  // newBeast.removeClass('new-beast');
-
-  // newBeast.addClass(this.keyword).addClass(this.whichDataSet);
-
   $('main').append(this.buildTemplate());
 }
 
@@ -107,8 +90,6 @@ HornMaker.prototype.buildTemplate = function () {
   const compiled = Handlebars.compile(template);
   return compiled(this);
 }
-
-// const beastTemplate = buildTemplate();
 
 const hideEverything = () => {
   $('main > section').hide();
@@ -143,8 +124,6 @@ $(() => {
   readJson();
   $('nav').on('click', 'li', function () {
     hideEverything();
-    // console.log();
-    //great! Dana worked some magic
     $('select').hide();
     $(`select.${$(this).attr('class')}`).fadeIn(300);
     $(`main > .${$(this).attr('class')}`).fadeIn(300);
