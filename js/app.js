@@ -1,6 +1,6 @@
 'use strict';
 
-
+// constructor function, pulls all the data out of the .json-supplied objects
 function HornMaker(rawData, whichDataSet) {
   for (let key in rawData) {
     this[key] = rawData[key];
@@ -15,12 +15,14 @@ function HornMaker(rawData, whichDataSet) {
   }
 }
 
+// sets up storage
 HornMaker.ourFriendlyBeastsA = [];
 HornMaker.ourFriendlyBeastsB = [];
 
 HornMaker.keywordsA = [];
 HornMaker.keywordsB = [];
 
+// pulls data from .json, builds page with helper functions
 const readJson = () => {
   $.get('data/page-1.json', 'json')
     .then((animals) => {
@@ -36,18 +38,21 @@ const readJson = () => {
     }).then(renderAllBeastsSetB).then(getKeywordsSetB).then($('main .set-b').hide());
 }
 
+// Renders set A
 const renderAllBeasts = () => {
   HornMaker.ourFriendlyBeastsA.forEach((beast) => {
     beast.renderBeast();
   })
 }
 
+// Renders set B
 const renderAllBeastsSetB = () => {
   HornMaker.ourFriendlyBeastsB.forEach((beast) => {
     beast.renderBeast();
   })
 }
 
+// Gathers up set a's keywords
 const getKeywords = function () {
   for (let i = 0; i < HornMaker.ourFriendlyBeastsA.length; i++) {
     if (HornMaker.keywordsA.indexOf(HornMaker.ourFriendlyBeastsA[i].keyword) === -1) {
@@ -57,6 +62,7 @@ const getKeywords = function () {
   renderKeywords();
 }
 
+// Gathers up set b's keywords
 const getKeywordsSetB = function () {
   for (let i = 0; i < HornMaker.ourFriendlyBeastsB.length; i++) {
     if (HornMaker.keywordsB.indexOf(HornMaker.ourFriendlyBeastsB[i].keyword) === -1) {
@@ -66,6 +72,7 @@ const getKeywordsSetB = function () {
   renderKeywordsSetB();
 }
 
+// Puts set a's keywords in the select dropdown
 const renderKeywords = function () {
   HornMaker.keywordsA.forEach((word) => {
     $('select.set-a').append(`<option value="${word}">${word}</option>`)
@@ -73,6 +80,7 @@ const renderKeywords = function () {
   $('select.set-a').append(`<option value="all">Show all</option>`)
 }
 
+// Puts set b's keywords in the select dropdown
 const renderKeywordsSetB = function () {
   HornMaker.keywordsB.forEach((word) => {
     $('select.set-b').append(`<option value="${word}">${word}</option>`)
@@ -80,22 +88,35 @@ const renderKeywordsSetB = function () {
   $('select.set-b').append(`<option value="all">Show all</option>`)
 }
 
-
+// Really just calls handlebars template
 HornMaker.prototype.renderBeast = function () {
   $('main').append(this.buildTemplate());
 }
 
+// Handlebars template builder
 HornMaker.prototype.buildTemplate = function () {
   const template = $('#beast-template').html();
   const compiled = Handlebars.compile(template);
   return compiled(this);
 }
 
+// compares values of appropriate type to sort images
+const sortImages = (sortBy) => {
+  if (sortBy === 'horns') {
+    $('main > section').sort(function (a, b) { return $(a).attr('class').split(/\s/)[2] - $(b).attr('class').split(/\s/)[2] }).appendTo($('main'))
+  }
+  if (sortBy === 'name') {
+    $('main > section').sort(function(a, b) {return $(a).children('h2').text().localeCompare($(b).children('h2').text())}).appendTo('main');
+  }
+}
+
+
+// hide it all helper function
 const hideEverything = () => {
   $('main > section').hide();
 };
 
-
+// Shows set a
 $('select.set-a').on('change', function () {
   hideEverything();
   console.log($(this));
@@ -107,7 +128,7 @@ $('select.set-a').on('change', function () {
   $(`.${$selection}.set-a`).fadeIn(350);
 })
 
-
+// Shows set b
 $('select.set-b').on('change', function () {
   hideEverything();
   console.log($(this));
@@ -117,6 +138,11 @@ $('select.set-b').on('change', function () {
     return;
   }
   $(`.${$selection}.set-b`).fadeIn(350);
+})
+
+// Sorting select event handler
+$('.sortBy').on('change', function() {
+  sortImages($('.sortBy').val());
 })
 
 

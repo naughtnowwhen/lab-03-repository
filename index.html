@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
   <script id="beast-template" type="text/x-handlebars-templat">
-    <section class="{{keyword}} {{whichDataSet}}">
+    <section class="{{keyword}} {{whichDataSet}} {{horns}}">
       <h2>{{title}}</h2>
       
         <img src="{{image_url}}" alt="picure of {{title}}">
@@ -34,6 +34,10 @@
     </select>
     <select class="sort set-b">
         <option value="default">Filter by Keyword</option>
+      </select>
+      <select class="sortBy">
+        <option value="horns">Sort By Horns</option>
+        <option value="name">Sort By Name</option>
       </select>
 
   </header>
