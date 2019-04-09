@@ -1,0 +1,24 @@
+{
+  "name": "lab-03-repository",
+  "version": "1.0.0",
+  "description": "## Configuration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naughtnowwhen/lab-03-repository.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naughtnowwhen/lab-03-repository/issues"
+  },
+  "homepage": "https://github.com/naughtnowwhen/lab-03-repository#readme",
+  "dependencies": {
+    "@types/jquery": "^3.3.29",
+    "typescript": "^3.4.2"
+  }
+}
